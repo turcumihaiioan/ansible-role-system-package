@@ -1,18 +1,18 @@
 ---
 - name: installing/upgrading package
   ansible.builtin.package:
-    name: "{{ system_hostname['name'] }}"
+    name: "{{ system_package['name'] }}"
     state: "{{ system_package['state'] }}"
     use: "{{ system_package['use'] | default(omit) }}"
   when:
     - system_package is defined
     - system_package['name'] is defined
     - system_package['state'] is defined
-    - system_package['state'] in ['latest','present']
+    - system_package['state'] in ["latest","present"]
 
 - name: removing package
   ansible.builtin.package:
-    name: "{{ system_hostname['name'] }}"
+    name: "{{ system_package['name'] }}"
     state: "{{ system_package['state'] }}"
     use: "{{ system_package['use'] | default(omit) }}"
   when:
