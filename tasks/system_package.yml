@@ -1,0 +1,20 @@
+---
+- name: "{{ system_package_item['key'] }} : installing/upgrading package"
+  ansible.builtin.package:
+    name: "{{ system_package_item['value']['name'] }}"
+    state: "{{ system_package_item['value']['state'] }}"
+    use: "{{ system_package_item['value']['use'] | default(omit) }}"
+  when:
+    - system_package_item['value']['name'] is defined
+    - system_package_item['value']['state'] is defined
+    - system_package_item['value']['state'] in ["latest","present"]
+
+- name: "{{ system_package_item['key'] }} : removing package"
+  ansible.builtin.package:
+    name: "{{ system_package_item['value']['name'] }}"
+    state: "{{ system_package_item['value']['state'] }}"
+    use: "{{ system_package_item['value']['use'] | default(omit) }}"
+  when:
+    - system_package_item['value']['name'] is defined
+    - system_package_item['value']['state'] is defined
+    - system_package_item['value']['state'] == "absent"
