@@ -13,9 +13,17 @@ Role Variables
 
 ```yml
 system_package:
-  name: ...
-  state: ...
-  use: ...
+  first_entry:
+    name: ...
+    state: ...
+    use: ...
+  second_entry:
+    .
+    .
+    .
+  .
+  .
+  .
 ```
 
 Dependencies
@@ -31,8 +39,9 @@ Example Playbook
 - hosts: servers
   vars:
     system_package:
-      name: ntpdate
-      state: present
+      pkg1:
+        name: ntpdate
+        state: present
   roles:
     - turcumihaiioan.system_package
 ```
@@ -42,8 +51,9 @@ Example Playbook
 - hosts: servers
   vars:
     system_package:
-      name: ntpdate
-      state: latest
+      pkg2:
+        name: ntpdate
+        state: latest
   roles:
     - turcumihaiioan.system_package
 ```
@@ -53,8 +63,32 @@ Example Playbook
 - hosts: servers
   vars:
     system_package:
-      name: ntpdate
-      state: absent
+      pkg3:
+        name: ntpdate
+        state: absent
+  roles:
+    - turcumihaiioan.system_package
+```
+
+#### Install, remove and upgrade packages in a specific order:
+```yml
+- hosts: servers
+  vars:
+    system_package:
+      pkg4:
+        name: at
+        state: present
+      pkg5:
+        name:
+          - httpd
+          - ntpdate
+        state: absent
+      pkg6:
+        name: chrony
+        state: latest
+      pkg7:
+        name: at
+        state: latest
   roles:
     - turcumihaiioan.system_package
 ```
