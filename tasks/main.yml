@@ -1,22 +1,9 @@
 ---
-- name: installing/upgrading package
-  ansible.builtin.package:
-    name: "{{ system_package['name'] }}"
-    state: "{{ system_package['state'] }}"
-    use: "{{ system_package['use'] | default(omit) }}"
+- name: running system_package tasks
+  include_tasks: system_package.yml
+  loop: "{{ system_package | dict2items }}"
+  loop_control:
+    label: "{{ system_package_item['key'] }}"
+    loop_var: system_package_item
   when:
-    - system_package is defined
-    - system_package['name'] is defined
-    - system_package['state'] is defined
-    - system_package['state'] in ["latest","present"]
-
-- name: removing package
-  ansible.builtin.package:
-    name: "{{ system_package['name'] }}"
-    state: "{{ system_package['state'] }}"
-    use: "{{ system_package['use'] | default(omit) }}"
-  when:
-    - system_package is defined
-    - system_package['name'] is defined
-    - system_package['state'] is defined
-    - system_package['state'] == "absent"
+    system_package is defined
