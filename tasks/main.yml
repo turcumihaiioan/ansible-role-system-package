@@ -1,6 +1,6 @@
 ---
 - name: running system_package tasks
-  include_tasks: system_package.yml
+  ansible.builtin.include_tasks: system_package.yml
   loop: "{{ system_package | dict2items }}"
   loop_control:
     label: "{{ system_package_item['key'] }}"
